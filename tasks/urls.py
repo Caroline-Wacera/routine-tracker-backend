@@ -1,10 +1,8 @@
-# tasks/urls.py
-
 from django.urls import path
-from . import views
+from .views import TaskListCreateView, TaskDetailView
 
 urlpatterns = [
-    # Placeholder for task APIs
-    # Example:
-    # path('', views.TaskList.as_view(), name='task-list'),
+    path("tasks/", TaskListCreateView.as_view(), name="task-list-create"),
+    path("tasks/<int:pk>/", TaskDetailView.as_view(), name="task-detail"),
 ]
+

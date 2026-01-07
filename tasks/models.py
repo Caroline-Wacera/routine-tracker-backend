@@ -1,17 +1,25 @@
 from django.db import models
-from django.contrib.auth.models import User  # built-in user model
+from django.contrib.auth.models import User
+
 
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)  # link task to a user
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='tasks'
+    )
+
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    date = models.DateField()         # date of the task
-    time = models.TimeField()         # time of the task
-    completed = models.BooleanField(default=False)  # checker
+
+    date = models.DateField()
+    scheduled_time = models.TimeField()
+
+    is_completed = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.title} - {'Done' if self.completed else 'Pending'}"
-# Create your models here.
+        status = "Done" if self.is_completed else "Pending"
+        return f"{self.title} - {status}"
